@@ -1,8 +1,8 @@
 body{
-    font-family: sans-serif;
-    background:#f0f8ff;
-    text-align:center;
-  }
+  font-family: 'Noto Sans JP', sans-serif;
+  background:#f0f8ff;
+  text-align:center;
+}
   #clickBtn{
     padding:12px 24px;
     font-size:1.1rem;
