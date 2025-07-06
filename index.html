@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>クリックゲーム</title>
+</head>
+<body>
+  <h1>クリックゲーム</h1>
+  <button id="clickBtn">クリック！</button>
+  <p>スコア: <span id="score">0</span></p>
+
+  <script>
+    let score = 0;
+    document.getElementById("clickBtn").addEventListener("click", () => {
+      score++;
+      document.getElementById("score").textContent = score;
+    });
+  </script>
+</body>
+</html>
