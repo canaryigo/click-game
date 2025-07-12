@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   <meta charset="UTF-8">
-  <title>パズルゲーム（仮）</title>
+  <title>数字あてパズル</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>パズルゲーム（準備中）</h1>
-  <p>ここにパズルゲームを追加する予定です。</p>
-  <a href="../">戻る</a>
+  <h1>1〜100の数字を当てよう！</h1>
+  <input type="number" id="guess" min="1" max="100">
+  <button id="checkBtn">判定</button>
+  <p id="message"></p>
+  <a href="../">← ホームへ戻る</a>
+
+  <script src="main.js" defer></script>
 </body>
 </html>
