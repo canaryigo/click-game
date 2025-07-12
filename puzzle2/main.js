@@ -11,26 +11,26 @@ for (let i = 0; i < 25; i++) {
   cell.className = "cell";
   cell.textContent = numbers[i];
   cell.addEventListener("click", () => {
-    const num = parseInt(cell.textContent);
-    if (num === current) {
-      cell.classList.add("clicked");
-      current++;
-      if (current > 25) {
-        message.textContent = "クリア！おめでとう！";
-      }
-    } else {
-      message.textContent = `ミス！ ${current} を押してください`;
-    }
-  });
-  board.appendChild(cell);
+  const num = parseInt(cell.textContent);
 
-let startTime = null;
-    if (clickedNumber === 1) {
-        startTime = Date.now(); // 現在のミリ秒
+  if (num === current) {
+    if (num === 1) {
+      startTime = Date.now(); // ここでスタート時間を記録
     }
-    if (clickedNumber === 25 && startTime !== null) {
-    const endTime = Date.now();
-    const elapsed = ((endTime - startTime) / 1000).toFixed(2);
-    document.getElementById("timer").textContent = `タイム: ${elapsed}秒`;
+
+    cell.classList.add("clicked");
+    current++;
+
+    if (current > 25) {
+      const endTime = Date.now();
+      const elapsed = ((endTime - startTime) / 1000).toFixed(2);
+      document.getElementById("timer").textContent = `タイム: ${elapsed}秒`;
+
+      message.textContent = "クリア！おめでとう！";
     }
+  } else {
+    message.textContent = `ミス！ ${current} を押してください`;
+  }
+});
+
 }
