@@ -23,4 +23,14 @@ for (let i = 0; i < 25; i++) {
     }
   });
   board.appendChild(cell);
+
+let startTime = null;
+    if (clickedNumber === 1) {
+        startTime = Date.now(); // 現在のミリ秒
+    }
+    if (clickedNumber === 25 && startTime !== null) {
+    const endTime = Date.now();
+    const elapsed = ((endTime - startTime) / 1000).toFixed(2);
+    document.getElementById("timer").textContent = `タイム: ${elapsed}秒`;
+    }
 }
