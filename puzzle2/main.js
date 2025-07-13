@@ -1,6 +1,7 @@
 const board = document.getElementById("game-board");
 const message = document.getElementById("message");
 const timerDisplay = document.getElementById("timer");
+const restartBtn = document.getElementById("restartBtn");
 
 let numbers = [...Array(25).keys()].map(n => n + 1);
 numbers.sort(() => Math.random() - 0.5); // シャッフル
@@ -43,10 +44,14 @@ cell.addEventListener("click", () => {
 
       // タイマーを止める
       clearInterval(timerInterval);
+      restartBtn.style.display = "inline-block";
     }
   } else {
     message.textContent = `ミス！ ${current} を押してください`;
   }
+  restartBtn.addEventListener("click", () => {
+  location.reload(); // ページをリロード（初期状態に戻る）
+  });
   });
 
   board.appendChild(cell);
