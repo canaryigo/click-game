@@ -1,66 +1,84 @@
-const board = document.getElementById("game-board");
-const message = document.getElementById("message");
-const timerDisplay = document.getElementById("timer");
-const restartBtn = document.getElementById("restartBtn");
-const bestTimeDisplay = document.getElementById("best-time");
-const savedBest = localStorage.getItem("bestTime");
-if (savedBest !== null) {
-  bestTimeDisplay.textContent = `ベストタイム: ${savedBest}秒`;
-}
-
-let numbers = [...Array(25).keys()].map(n => n + 1);
-numbers.sort(() => Math.random() - 0.5); // シャッフル
-
-let current = 1;
 let startTime = null;
 let timerInterval = null;
+let current = 1;
 
-for (let i = 0; i < 25; i++) {
-  const cell = document.createElement("div");
-  cell.className = "cell";
-  cell.textContent = numbers[i];
+function createGame(gridSize) {
+  const board = document.getElementById("game-board");
+  const message = document.getElementById("message");
+  const timerDisplay = document.getElementById("timer");
+  const bestTimeDisplay = document.getElementById("best-time");
+  const restartBtn = document.getElementById("restartBtn");
 
-cell.addEventListener("click", () => {
-  const num = parseInt(cell.textContent);
+  board.innerHTML = "";
+  message.textContent = "";
+  timerDisplay.textContent = "タイム: 0.00秒";
+  restartBtn.style.display = "none";
+  clearInterval(timerInterval);
+  current = 1;
+  startTime = null;
 
-  if (num === current) {
-    if (num === 1) {
-      // 1を押した瞬間にスタート
-      startTime = Date.now();
+  // グリッド設定
+  board.style.display = "grid";
+  board.style.gridTemplateColumns = `repeat(${gridSize}, 60px)`;
 
-      // 毎0.1秒ごとに経過時間を表示
-      timerInterval = setInterval(() => {
-        const now = Date.now();
-        const elapsed = ((now - startTime) / 1000).toFixed(2);
-        timerDisplay.textContent = `タイム: ${elapsed}秒`;
-      }, 100);
-    }
+  const maxNum = gridSize * gridSize;
+  let numbers = [...Array(maxNum).keys()].map(n => n + 1);
+  numbers.sort(() => Math.random() - 0.5);
 
-    cell.classList.add("clicked");
-    current++;
+  // ベストタイム表示
+  const key = `bestTime${gridSize}`;
+  const savedBest = localStorage.getItem(key);
+  bestTimeDisplay.textContent = savedBest ? `ベストタイム: ${savedBest}秒` : "ベストタイム: -- 秒";
 
-    restartBtn.style.display = "inline-block";
+  for (let i = 0; i < maxNum; i++) {
+    const cell = document.createElement("div");
+    cell.className = "cell";
+    cell.textContent = numbers[i];
 
-    if (num === 25 && startTime !== null) {
-      const endTime = Date.now();
-      const elapsed = ((endTime - startTime) / 1000).toFixed(2);
-      message.textContent = "クリア！おめでとう！";
-      timerDisplay.textContent = `タイム: ${elapsed}秒`;
-      clearInterval(timerInterval);
+    cell.addEventListener("click", () => {
+      const num = parseInt(cell.textContent);
+      if (num === current) {
+        if (num === 1) {
+          startTime = Date.now();
+          timerInterval = setInterval(() => {
+            const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+            timerDisplay.textContent = `タイム: ${elapsed}秒`;
+          }, 100);
+        }
 
-      const currentBest = localStorage.getItem("bestTime");
-      if (currentBest === null || elapsed < parseFloat(currentBest)) {
-        localStorage.setItem("bestTime", elapsed);
-        bestTimeDisplay.textContent = `ベストタイム: ${elapsed}秒`;
-    }
+        cell.classList.add("clicked");
+        current++;
+
+        if (num === maxNum && startTime !== null) {
+          clearInterval(timerInterval);
+          const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+          timerDisplay.textContent = `タイム: ${elapsed}秒`;
+          message.textContent = "クリア！おめでとう！";
+
+          // 🏆 難易度ごとのベスト記録保存
+          const currentBest = localStorage.getItem(key);
+          if (currentBest === null || elapsed < parseFloat(currentBest)) {
+            localStorage.setItem(key, elapsed);
+            bestTimeDisplay.textContent = `ベストタイム: ${elapsed}秒`;
+          }
+
+          restartBtn.style.display = "inline-block";
+        }
+      } else {
+        message.textContent = `ミス！ ${current} を押してください`;
+      }
+    });
+
+    document.getElementById("startBtn").addEventListener("click", () => {
+  const gridSize = parseInt(document.getElementById("difficulty").value);
+  createGame(gridSize);
+});
+
+document.getElementById("restartBtn").addEventListener("click", () => {
+  const gridSize = parseInt(document.getElementById("difficulty").value);
+  createGame(gridSize);
+});
+
+    board.appendChild(cell);
   }
-  } else {
-    message.textContent = `ミス！ ${current} を押してください`;
-  }
-  restartBtn.addEventListener("click", () => {
-  location.reload(); // ページをリロード（初期状態に戻る）
-  });
-  });
-
-  board.appendChild(cell);
 }
