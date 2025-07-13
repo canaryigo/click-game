@@ -69,7 +69,11 @@ function createGame(gridSize) {
       }
     });
 
-    document.getElementById("startBtn").addEventListener("click", () => {
+    board.appendChild(cell);
+  }
+}
+
+document.getElementById("startBtn").addEventListener("click", () => {
   const gridSize = parseInt(document.getElementById("difficulty").value);
   createGame(gridSize);
 });
@@ -79,6 +83,3 @@ document.getElementById("restartBtn").addEventListener("click", () => {
   createGame(gridSize);
 });
 
-    board.appendChild(cell);
-  }
-}
