@@ -32,15 +32,49 @@
     }
   </style>
 </head>
-<body class="text-center p-5 bg-light">
+<body class="bg-light p-4">
+  <h1 class="text-center mb-4">ミニゲーム一覧</h1>
 
-  <h1 class="mb-4">ゲーム一覧</h1>
+  <div class="container">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
 
-  <div class="d-grid gap-3 col-6 mx-auto">
-    <a href="./click/index.html" class="btn btn-primary">クリックゲーム</a>
-    <a href="./puzzle/index.html" class="btn btn-success">数字あて</a>
-    <a href="./puzzle2/index.html" class="btn btn-warning">ナンバー２５</a>
+      <!-- ゲーム1 -->
+      <div class="col">
+        <div class="card h-100 text-center">
+          <a href="click/index.html">
+            <img src="img/click.png" class="card-img-top" alt="クリックゲーム">
+          </a>
+          <div class="card-body">
+            <h5 class="card-title">クリックゲーム</h5>
+          </div>
+        </div>
+      </div>
+
+      <!-- ゲーム2 -->
+      <div class="col">
+        <div class="card h-100 text-center">
+          <a href="puzzle/index.html"
+            <img src="img/puzzle.png" class="card-img-top" alt="数字あて">
+          </a>
+          <div class="card-body">
+            <h5 class="card-title">数字あて</h5>
+          </div>
+        </div>
+      </div>
+
+      <!-- ゲーム2 -->
+      <div class="col">
+        <div class="card h-100 text-center">
+          <a href="puzzle2/index.html"
+            <img src="img/puzzle2.png" class="card-img-top" alt="ナンバー２５">
+          </a>
+          <div class="card-body">
+            <h5 class="card-title">ナンバー２５</h5>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
-
 </body>
 </html>
