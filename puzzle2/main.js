@@ -2,6 +2,11 @@ const board = document.getElementById("game-board");
 const message = document.getElementById("message");
 const timerDisplay = document.getElementById("timer");
 const restartBtn = document.getElementById("restartBtn");
+const bestTimeDisplay = document.getElementById("best-time");
+const savedBest = localStorage.getItem("bestTime");
+if (savedBest !== null) {
+  bestTimeDisplay.textContent = `ベストタイム: ${savedBest}秒`;
+}
 
 let numbers = [...Array(25).keys()].map(n => n + 1);
 numbers.sort(() => Math.random() - 0.5); // シャッフル
@@ -34,18 +39,21 @@ cell.addEventListener("click", () => {
     cell.classList.add("clicked");
     current++;
 
+    restartBtn.style.display = "inline-block";
+
     if (num === 25 && startTime !== null) {
       const endTime = Date.now();
       const elapsed = ((endTime - startTime) / 1000).toFixed(2);
       message.textContent = "クリア！おめでとう！";
-
-      // 最後のタイムを表示
       timerDisplay.textContent = `タイム: ${elapsed}秒`;
-
-      // タイマーを止める
       clearInterval(timerInterval);
-      restartBtn.style.display = "inline-block";
+
+      const currentBest = localStorage.getItem("bestTime");
+      if (currentBest === null || elapsed < parseFloat(currentBest)) {
+        localStorage.setItem("bestTime", elapsed);
+        bestTimeDisplay.textContent = `ベストタイム: ${elapsed}秒`;
     }
+  }
   } else {
     message.textContent = `ミス！ ${current} を押してください`;
   }
