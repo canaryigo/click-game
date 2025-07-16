@@ -5,12 +5,15 @@
   <title>マンカラ</title>
   <link rel="stylesheet" href="style.css">
 </head>
+<button id="restartBtn" style="margin-top: 20px; display: none;">もう一度プレイ</button>
+
 <body>
   <h1>マンカラ</h1>
-  <div id="board">
-    <div class="store" id="storeB"></div>
-    <div class="row">
-      <!-- プレイヤーBのマス（上段） -->
+<div id="board">
+  <div class="store" id="storeB" data-index="13"></div>
+
+  <div class="rows">
+    <div class="row top-row">
       <div class="pit" data-index="12"></div>
       <div class="pit" data-index="11"></div>
       <div class="pit" data-index="10"></div>
@@ -18,8 +21,7 @@
       <div class="pit" data-index="8"></div>
       <div class="pit" data-index="7"></div>
     </div>
-    <div class="row">
-      <!-- プレイヤーAのマス（下段） -->
+    <div class="row bottom-row">
       <div class="pit" data-index="0"></div>
       <div class="pit" data-index="1"></div>
       <div class="pit" data-index="2"></div>
@@ -27,8 +29,11 @@
       <div class="pit" data-index="4"></div>
       <div class="pit" data-index="5"></div>
     </div>
-    <div class="store" id="storeA"></div>
   </div>
+
+  <div class="store" id="storeA" data-index="6"></div>
+</div>
+
 
   <script src="main.js"></script>
 </body>

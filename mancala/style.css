@@ -13,9 +13,14 @@ body {
   width: fit-content;
 }
 
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .row {
   display: flex;
-  flex-direction: row;
   gap: 10px;
 }
 
