@@ -4,8 +4,38 @@ let currentPlayer = 'A';
 function renderBoard() {
   document.querySelectorAll('.pit, .store').forEach(pit => {
     const i = parseInt(pit.dataset.index);
-    pit.textContent = board[i];
+    const count = board[i];
+
+    pit.innerHTML = ''; // 中身をクリア
+
+    for (let j = 0; j < count; j++) {
+      const stone = document.createElement("div");
+      stone.classList.add("stone");
+
+      // 石が多い場合は小さくする
+      if (count >= 13) {
+        stone.classList.add("tiny");
+      } else if (count >= 9) {
+        stone.classList.add("small");
+      }
+
+      pit.appendChild(stone);
+    }
   });
+}
+
+function updateTurnDisplay() {
+  const indicator = document.getElementById("turn-indicator");
+
+  if (currentPlayer === 'A') {
+    indicator.textContent = 'プレイヤーAの番です';
+    indicator.classList.remove('b-turn');
+    indicator.classList.add('a-turn');
+  } else {
+    indicator.textContent = 'プレイヤーBの番です';
+    indicator.classList.remove('a-turn');
+    indicator.classList.add('b-turn');
+  }
 }
 
 document.querySelectorAll('.pit').forEach(pit => {
@@ -15,6 +45,11 @@ document.querySelectorAll('.pit').forEach(pit => {
     // 手番とマスのチェック
     if (currentPlayer === 'A' && index > 5) return;
     if (currentPlayer === 'B' && (index < 7 || index > 12)) return;
+
+    pit.classList.add("clicked");               // ← ここで一時的にクラス追加
+    setTimeout(() => {
+      pit.classList.remove("clicked");          // ← 0.3秒後にクラス削除
+    }, 100);
 
     let stones = board[index];
     if (stones === 0) return;
@@ -40,6 +75,7 @@ document.querySelectorAll('.pit').forEach(pit => {
       // 再手番
     } else {
       currentPlayer = currentPlayer === 'A' ? 'B' : 'A';
+      updateTurnDisplay();
     }
 
     checkGameEnd();
@@ -56,6 +92,7 @@ function resetGame() {
   restartBtn.style.display = "none";
   document.querySelectorAll('.pit').forEach(p => {
     p.style.pointerEvents = "auto";
+  updateTurnDisplay();
   });
 }
 
