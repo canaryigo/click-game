@@ -1,4 +1,8 @@
+const stoneSound = new Audio("sound/click.mp3");
 const board = [4,4,4,4,4,4,0,4,4,4,4,4,4,0];
+stoneSound.currentTime = 0;
+stoneSound.play();
+
 let currentPlayer = 'A';
 
 function renderBoard() {
@@ -20,6 +24,10 @@ function renderBoard() {
       }
 
       pit.appendChild(stone);
+      if (j === 0) {
+    stoneSound.currentTime = 0;
+    stoneSound.play();
+  }
     }
   });
 }
@@ -51,22 +59,28 @@ document.querySelectorAll('.pit').forEach(pit => {
       pit.classList.remove("clicked");          // ← 0.3秒後にクラス削除
     }, 100);
 
-    let stones = board[index];
-    if (stones === 0) return;
+  let stones = board[index];
+  if (stones === 0) return;
 
-    board[index] = 0;
-    let i = index;
+  board[index] = 0;
+  renderBoard();
 
-    while (stones > 0) {
-      i = (i + 1) % 14;
+  document.querySelectorAll('.pit').forEach(p => p.style.pointerEvents = "none"); // 操作ロック
 
-      // 相手のゴールをスキップ
-      if (currentPlayer === 'A' && i === 13) continue;
-      if (currentPlayer === 'B' && i === 6) continue;
-
-      board[i]++;
-      stones--;
+  distributeStonesAnimated(index, stones, (lastIndex) => {
+    // 再手番チェック
+    if ((currentPlayer === 'A' && lastIndex === 6) || (currentPlayer === 'B' && lastIndex === 13)) {
+      // 再手番
+    } else {
+      currentPlayer = currentPlayer === 'A' ? 'B' : 'A';
+      updateTurnDisplay();
     }
+
+    checkGameEnd();
+
+    // 再度操作を有効にする
+    document.querySelectorAll('.pit').forEach(p => p.style.pointerEvents = "auto");
+  });
 
     renderBoard();
 
@@ -83,6 +97,34 @@ document.querySelectorAll('.pit').forEach(pit => {
 });
 
 const restartBtn = document.getElementById("restartBtn");
+
+function distributeStonesAnimated(startIndex, stones, callback) {
+  let i = startIndex;
+  
+  function dropNext() {
+    if (stones > 0) {
+      do {
+        i = (i + 1) % 14;
+      } while (
+        (currentPlayer === 'A' && i === 13) ||
+        (currentPlayer === 'B' && i === 6)
+      );
+
+      board[i]++;
+      renderBoard();
+
+      stoneSound.currentTime = 0;
+      stoneSound.play();
+
+      stones--;
+      setTimeout(dropNext, 500); // 次の石を落とす
+    } else {
+      callback(i); // 最後に落とした場所を渡す
+    }
+  }
+
+  dropNext();
+}
 
 function resetGame() {
   board.length = 0; // boardを空にする
