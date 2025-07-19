@@ -64,6 +64,7 @@ body {
   padding: 8px;
   box-sizing: border-box;
   overflow: hidden; /* はみ出し防止 */
+  position: relative;
 }
 
 .stone {
@@ -73,7 +74,7 @@ body {
   background-size: cover;
   filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));
   border-radius: 50%;
-  animation: drop 0.2s ease-out;
+  animation: pop-in 0.3s ease-out;
 }
 .stone.small {
   width: 15px;
@@ -94,4 +95,17 @@ body {
     transform: scale(1);
     opacity: 1;
   }
+}
+
+.flying-stone {
+  width: 16px;
+  height: 16px;
+  background-image: url("img/stone.png");
+  background-size: cover;
+  border-radius: 50%;
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
+  position: absolute;
+  z-index: 999;
+  transition: all 0.5s ease;
+  pointer-events: none;
 }

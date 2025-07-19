@@ -1,4 +1,8 @@
 const stoneSound = new Audio("sound/click.mp3");
+const turnSound = new Audio("sound/turn.mp3");
+turnSound.volume = 0.7;
+const goalSound = new Audio("sound/goal.mp3");
+goalSound.volume = 0.7;
 const board = [4,4,4,4,4,4,0,4,4,4,4,4,4,0];
 stoneSound.currentTime = 0;
 stoneSound.play();
@@ -24,10 +28,10 @@ function renderBoard() {
       }
 
       pit.appendChild(stone);
-      if (j === 0) {
-    stoneSound.currentTime = 0;
-    stoneSound.play();
-  }
+      //if (j === 0) {
+    //stoneSound.currentTime = 0;
+    //stoneSound.play();
+  //}
     }
   });
 }
@@ -62,27 +66,23 @@ document.querySelectorAll('.pit').forEach(pit => {
   let stones = board[index];
   if (stones === 0) return;
 
-  board[index] = 0;
-  renderBoard();
-
   document.querySelectorAll('.pit').forEach(p => p.style.pointerEvents = "none"); // 操作ロック
 
   distributeStonesAnimated(index, stones, (lastIndex) => {
     // 再手番チェック
     if ((currentPlayer === 'A' && lastIndex === 6) || (currentPlayer === 'B' && lastIndex === 13)) {
       // 再手番
-    } else {
-      currentPlayer = currentPlayer === 'A' ? 'B' : 'A';
-      updateTurnDisplay();
-    }
+  } else {
+    turnSound.currentTime = 0;
+    turnSound.play();
 
-    checkGameEnd();
+    currentPlayer = currentPlayer === 'A' ? 'B' : 'A';
+    updateTurnDisplay();
+  }
 
-    // 再度操作を有効にする
-    document.querySelectorAll('.pit').forEach(p => p.style.pointerEvents = "auto");
-  });
-
-    renderBoard();
+  checkGameEnd();
+  document.querySelectorAll('.pit').forEach(p => p.style.pointerEvents = "auto");
+});
 
     // 最後の石が自分のゴールなら再手番
     if ((currentPlayer === 'A' && i === 6) || (currentPlayer === 'B' && i === 13)) {
@@ -100,7 +100,10 @@ const restartBtn = document.getElementById("restartBtn");
 
 function distributeStonesAnimated(startIndex, stones, callback) {
   let i = startIndex;
-  
+
+  const fromPit = document.querySelector(`[data-index='${startIndex}']`);
+  const stonesInPit = Array.from(fromPit.querySelectorAll('.stone'));
+
   function dropNext() {
     if (stones > 0) {
       do {
@@ -110,16 +113,57 @@ function distributeStonesAnimated(startIndex, stones, callback) {
         (currentPlayer === 'B' && i === 6)
       );
 
-      board[i]++;
-      renderBoard();
+      const toPit = document.querySelector(`[data-index='${i}']`);
+      const toRect = toPit.getBoundingClientRect();
 
-      stoneSound.currentTime = 0;
-      stoneSound.play();
+      // クリック元の石を1つ取得して飛ばす
+      const stoneEl = stonesInPit.shift();
+      const fromRect = stoneEl.getBoundingClientRect();
 
-      stones--;
-      setTimeout(dropNext, 500); // 次の石を落とす
+      const flyStone = stoneEl.cloneNode(true);
+      flyStone.classList.add("flying-stone");
+
+      // 最初の位置に配置
+      flyStone.style.left = `${fromRect.left + fromRect.width / 2 - 8}px`;
+      flyStone.style.top = `${fromRect.top + fromRect.height / 2 - 8}px`;
+
+      // 石を削除し、bodyに飛び石追加
+      stoneEl.remove();
+      document.body.appendChild(flyStone);
+
+      requestAnimationFrame(() => {
+        flyStone.style.left = `${toRect.left + toRect.width / 2 - 8}px`;
+        flyStone.style.top = `${toRect.top + toRect.height / 2 - 8}px`;
+      });
+
+      setTimeout(() => {
+        board[i]++;
+
+        // 仮の石を移動先に入れて見た目に反映
+        const newStone = document.createElement("div");
+        newStone.classList.add("stone");
+        toPit.appendChild(newStone);
+
+        flyStone.remove();
+
+        const isOwnGoal =
+          (currentPlayer === 'A' && i === 6) ||
+          (currentPlayer === 'B' && i === 13);
+
+        if (stones === 1 && isOwnGoal) {
+          goalSound.currentTime = 0;
+          goalSound.play();
+        } else if (stones > 1 || !isOwnGoal) {
+          stoneSound.currentTime = 0;
+          stoneSound.play();
+        }
+        stones--;
+        setTimeout(dropNext, 200);
+      }, 300);
     } else {
-      callback(i); // 最後に落とした場所を渡す
+      board[startIndex] = 0; // 全部飛ばし終わってから正式に0にする
+      renderBoard();
+      callback(i);
     }
   }
 
