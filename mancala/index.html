@@ -9,7 +9,10 @@
 
 <body>
   <h1>マンカラ</h1>
-  <h2 id="turn-indicator">プレイヤーAの番です</h2>
+  <h2 id="turn-indicator">
+    <img id="turn-icon" src="img/person.png" style="width:24px; vertical-align:middle;">
+    <span id="turn-text">あなたの番です</span>
+  </h2>
 
 <div id="board">
   <div class="store" id="storeB" data-index="13"></div>
@@ -36,6 +39,10 @@
   <div class="store" id="storeA" data-index="6"></div>
 </div>
 
+<div id="scoreboard">
+  <div class="score-block you">あなた: <span id="scoreA">0</span></div>
+  <div class="score-block cpu">CPU: <span id="scoreB">0</span></div>
+</div>
 
   <script src="main.js"></script>
 </body>

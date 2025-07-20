@@ -36,18 +36,68 @@ function renderBoard() {
   });
 }
 
+function updateScores() {
+  document.getElementById("scoreA").textContent = board[6];  // あなた
+  document.getElementById("scoreB").textContent = board[13]; // CPU
+}
+
 function updateTurnDisplay() {
   const indicator = document.getElementById("turn-indicator");
+  const icon = document.getElementById("turn-icon");
+  const text = document.getElementById("turn-text");
 
   if (currentPlayer === 'A') {
-    indicator.textContent = 'プレイヤーAの番です';
+    text.textContent = 'あなたの番です';
+    icon.src = 'img/person.png';
     indicator.classList.remove('b-turn');
     indicator.classList.add('a-turn');
   } else {
-    indicator.textContent = 'プレイヤーBの番です';
+    text.textContent = 'CPUの番です';
+    icon.src = 'img/cpu.png';
     indicator.classList.remove('a-turn');
     indicator.classList.add('b-turn');
   }
+}
+
+function getSmartMove() {
+  const candidates = [];
+  let goalMove = null;
+
+  for (let i = 7; i <= 12; i++) {
+    const stones = board[i];
+    if (stones === 0) continue;
+
+    const lastIndex = (i + stones) % 14;
+
+    // 自分のゴールで終わる手なら最優先
+    if (lastIndex === 13) {
+      goalMove = i;
+    }
+
+    candidates.push(i);
+  }
+
+  return goalMove !== null ? goalMove : candidates[Math.floor(Math.random() * candidates.length)];
+}
+
+function handleCpuTurn() {
+  if (currentPlayer !== 'B') return;
+
+  // 少し待ってから実行（人間っぽさ）
+  setTimeout(() => {
+    // 7〜12の中から石があるピットを探す
+    const candidates = [];
+    for (let i = 7; i <= 12; i++) {
+      if (board[i] > 0) candidates.push(i);
+    }
+
+    if (candidates.length === 0) return; // 念のため
+
+    const choice = getSmartMove();
+
+    // 人間と同じクリック処理を呼び出す
+    document.querySelector(`.pit[data-index='${choice}']`).click();
+  }, 700); // 0.7秒くらい待つと自然
 }
 
 document.querySelectorAll('.pit').forEach(pit => {
@@ -69,7 +119,6 @@ document.querySelectorAll('.pit').forEach(pit => {
   document.querySelectorAll('.pit').forEach(p => p.style.pointerEvents = "none"); // 操作ロック
 
   distributeStonesAnimated(index, stones, (lastIndex) => {
-    // 再手番チェック
     if ((currentPlayer === 'A' && lastIndex === 6) || (currentPlayer === 'B' && lastIndex === 13)) {
       // 再手番
   } else {
@@ -82,6 +131,10 @@ document.querySelectorAll('.pit').forEach(pit => {
 
   checkGameEnd();
   document.querySelectorAll('.pit').forEach(p => p.style.pointerEvents = "auto");
+
+    if (currentPlayer === 'B') {
+    handleCpuTurn();
+  }
 });
 
     // 最後の石が自分のゴールなら再手番
@@ -157,9 +210,16 @@ function distributeStonesAnimated(startIndex, stones, callback) {
           stoneSound.currentTime = 0;
           stoneSound.play();
         }
+
+        // ★ ゴールが更新された瞬間にスコアも更新
+        if (i === 6 || i === 13) {
+          updateScores();
+        }
+
         stones--;
         setTimeout(dropNext, 200);
       }, 300);
+
     } else {
       board[startIndex] = 0; // 全部飛ばし終わってから正式に0にする
       renderBoard();
@@ -168,6 +228,7 @@ function distributeStonesAnimated(startIndex, stones, callback) {
   }
 
   dropNext();
+  updateScores();
 }
 
 function resetGame() {
