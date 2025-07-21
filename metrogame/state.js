@@ -1,5 +1,5 @@
 export let gameState = {
   player: "otemachi",
-  oni: ["kitasenju", "kitasenju", "meguro", "meguro"],
+  oni: ["shinagawa", "ikebukuro", "ueno", "shimbashi"],
   turn: 1,
 };
