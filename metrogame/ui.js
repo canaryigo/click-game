@@ -74,15 +74,14 @@ function moveOniTowardPlayer() {
 }
 
 export function enableStationClicks(svg, onSelect) {
-  // 全ての駅にイベントを登録（ただし合法手のみ）
   Object.entries(stations).forEach(([id, station]) => {
     const circle = svg.querySelector(`#${id}`);
     if (gameState.player && stations[gameState.player].neighbors.includes(id)) {
       circle.style.cursor = "pointer";
       circle.addEventListener("click", () => {
-        onSelect(id);
-        gameState.turn += 1;
-        moveOniTowardPlayer();
+        onSelect(id); // プレイヤーを移動
+        moveOniTowardPlayer(); // 鬼をまとめて1歩ずつ移動
+        gameState.turn += 1; // ← 最後にターンを進める！
         drawCharacters(svg);
         enableStationClicks(svg, onSelect);
       }, { once: true });
