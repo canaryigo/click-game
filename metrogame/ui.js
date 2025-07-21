@@ -104,14 +104,27 @@ function checkGameEnd(svg) {
 }
 
 export function enableStationClicks(svg, onSelect) {
+  // 駅クリックの登録前に全て初期化
   Object.entries(stations).forEach(([id, station]) => {
     const circle = svg.querySelector(`#${id}`);
     const newCircle = circle.cloneNode(true);
     circle.parentNode.replaceChild(newCircle, circle);
 
-    if (gameState.player && stations[gameState.player].neighbors.includes(id)) {
-      newCircle.style.cursor = "pointer";
-      newCircle.addEventListener("click", () => {
+    newCircle.style.cursor = "default";
+    newCircle.setAttribute("fill", "#fff");
+  });
+
+  // 移動可能な隣接駅一覧
+  const neighbors = stations[gameState.player].neighbors;
+
+  if (neighbors.length > 0) {
+    neighbors.forEach(id => {
+      const circle = svg.querySelector(`#${id}`);
+      if (!circle) return;
+
+      circle.style.cursor = "pointer";
+      circle.setAttribute("fill", "#ccf");
+      circle.addEventListener("click", () => {
         onSelect(id);
         moveOniTowardPlayer();
         gameState.turn += 1;
@@ -120,24 +133,19 @@ export function enableStationClicks(svg, onSelect) {
           enableStationClicks(svg, onSelect);
         }
       }, { once: true });
-      newCircle.setAttribute("fill", "#ccf");
-    } else {
-      newCircle.style.cursor = "default";
-      newCircle.setAttribute("fill", "#fff");
-    }
-    const movable = stations[gameState.player].neighbors;
-    if (movable.length === 0 || 条件で全ブロックされた) {
-    // プレイヤーが行ける駅がない場合
+    });
+  } else {
+    // 行き止まり時：その場に留まるクリックを許可
     const waitCircle = svg.querySelector(`#${gameState.player}`);
     waitCircle.style.cursor = "pointer";
     waitCircle.setAttribute("fill", "#ccf");
     waitCircle.addEventListener("click", () => {
-        moveOniTowardPlayer();
-        gameState.turn += 1;
-        drawCharacters(svg);
-        checkGameEnd(svg) || enableStationClicks(svg, () => {});
+      moveOniTowardPlayer();
+      gameState.turn += 1;
+      drawCharacters(svg);
+      if (!checkGameEnd(svg)) {
+        enableStationClicks(svg, onSelect);
+      }
     }, { once: true });
-    }
-
-  });
+  }
 }
