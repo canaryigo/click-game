@@ -3,10 +3,8 @@ import { stations } from "./map.js";
 import { gameState } from "./state.js";
 
 export function drawCharacters(svg) {
-  // 既存のキャラをクリア（重複防止）
   svg.querySelectorAll(".character").forEach(el => el.remove());
 
-  // プレイヤー（青）
   const p = stations[gameState.player];
   const pc = document.createElementNS("http://www.w3.org/2000/svg", "circle");
   pc.setAttribute("cx", p.x);
@@ -16,7 +14,6 @@ export function drawCharacters(svg) {
   pc.classList.add("character");
   svg.appendChild(pc);
 
-  // 鬼（赤）ずらして描画
   const groupedOni = {};
   for (const pos of gameState.oni) {
     if (!groupedOni[pos]) groupedOni[pos] = 0;
@@ -38,7 +35,6 @@ export function drawCharacters(svg) {
     }
   }
 
-  // ターン表示更新
   const turnDisplay = document.getElementById("turn-display");
   if (turnDisplay) {
     turnDisplay.textContent = `ターン: ${gameState.turn}`;
@@ -47,10 +43,8 @@ export function drawCharacters(svg) {
 
 function moveOniTowardPlayer() {
   const playerPos = gameState.player;
-
   gameState.oni = gameState.oni.map(current => {
     if (current === playerPos) return current;
-
     const visited = new Set();
     const queue = [[current]];
     visited.add(current);
@@ -70,7 +64,6 @@ function moveOniTowardPlayer() {
         }
       }
     }
-
     return current;
   });
 }
@@ -87,24 +80,32 @@ function resetGame(svg) {
 
 function checkGameEnd(svg) {
   const playerPos = gameState.player;
-  const winTurn = 4;
+  const winTurn = 3;
 
   if (gameState.oni.includes(playerPos)) {
-    if (confirm("ゲームオーバー！鬼につかまりました。\nリプレイしますか？")) {
-      resetGame(svg);
-    }
+    alert("ゲームオーバー！鬼につかまりました。");
+    disableAllClicks(svg);
     return true;
   } else if (gameState.turn >= winTurn) {
-    if (confirm("勝利！鬼から逃げ切りました。\nリプレイしますか？")) {
-      resetGame(svg);
-    }
+    alert("勝利！鬼から逃げ切りました。");
+    disableAllClicks(svg);
     return true;
   }
   return false;
 }
 
+function disableAllClicks(svg) {
+  document.querySelectorAll(".station").forEach(el => {
+    const clone = el.cloneNode(true);
+    el.parentNode.replaceChild(clone, el);
+  });
+  const resign = document.getElementById("resign-button");
+  if (resign) resign.style.display = "block";
+}
+
 export function enableStationClicks(svg, onSelect) {
-  // 駅クリックの登録前に全て初期化
+  const neighbors = stations[gameState.player].neighbors;
+
   Object.entries(stations).forEach(([id, station]) => {
     const circle = svg.querySelector(`#${id}`);
     const newCircle = circle.cloneNode(true);
@@ -112,19 +113,11 @@ export function enableStationClicks(svg, onSelect) {
 
     newCircle.style.cursor = "default";
     newCircle.setAttribute("fill", "#fff");
-  });
 
-  // 移動可能な隣接駅一覧
-  const neighbors = stations[gameState.player].neighbors;
-
-  if (neighbors.length > 0) {
-    neighbors.forEach(id => {
-      const circle = svg.querySelector(`#${id}`);
-      if (!circle) return;
-
-      circle.style.cursor = "pointer";
-      circle.setAttribute("fill", "#ccf");
-      circle.addEventListener("click", () => {
+    if (neighbors.includes(id)) {
+      newCircle.style.cursor = "pointer";
+      newCircle.setAttribute("fill", "#ccf");
+      newCircle.addEventListener("click", () => {
         onSelect(id);
         moveOniTowardPlayer();
         gameState.turn += 1;
@@ -133,20 +126,14 @@ export function enableStationClicks(svg, onSelect) {
           enableStationClicks(svg, onSelect);
         }
       }, { once: true });
-    });
-  } else {
-    // 行き止まり時：その場に留まるクリックを許可
-    const waitCircle = svg.querySelector(`#${gameState.player}`);
-    waitCircle.style.cursor = "pointer";
-    waitCircle.setAttribute("fill", "#ccf");
-    waitCircle.addEventListener("click", () => {
-    onSelect(gameState.player); // ← 追加
-    moveOniTowardPlayer();
-    gameState.turn += 1;
-    drawCharacters(svg);
-    if (!checkGameEnd(svg)) {
-        enableStationClicks(svg, onSelect);
     }
-    }, { once: true });
+  });
+
+  const resignBtn = document.getElementById("resign-button");
+  if (resignBtn) {
+    resignBtn.onclick = () => {
+      resetGame(svg);
+      resignBtn.style.display = "none";
+    };
   }
 }
