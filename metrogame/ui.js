@@ -37,14 +37,39 @@ export function drawCharacters(svg) {
 
 function moveOniTowardPlayer() {
   const playerPos = gameState.player;
+
   gameState.oni = gameState.oni.map(current => {
-    const options = stations[current].neighbors;
-    if (options.includes(playerPos)) {
-      return playerPos; // 直接隣ならすぐ行く
+    if (current === playerPos) return current; // すでに同じ駅
+
+    const visited = new Set();
+    const queue = [[current, null]]; // [現在駅, 来た方向]
+
+    let pathMap = {};
+    visited.add(current);
+
+    while (queue.length > 0) {
+      const [stationId, from] = queue.shift();
+      const neighbors = stations[stationId].neighbors;
+
+      for (let neighbor of neighbors) {
+        if (visited.has(neighbor)) continue;
+        visited.add(neighbor);
+        pathMap[neighbor] = stationId; // どこから来たか記録
+
+        if (neighbor === playerPos) {
+          // ゴールに到達したら、逆順にたどって最初の1歩を取得
+          let step = neighbor;
+          while (pathMap[step] !== current) {
+            step = pathMap[step];
+          }
+          return step;
+        }
+        queue.push([neighbor, stationId]);
+      }
     }
-    // プレイヤーに一番近づく駅を選ぶ（簡易）
-    const next = options[0];
-    return next || current;
+
+    // ゴールに辿り着けない場合（あり得ない） → stay
+    return current;
   });
 }
 
