@@ -87,7 +87,7 @@ function resetGame(svg) {
 
 function checkGameEnd(svg) {
   const playerPos = gameState.player;
-  const winTurn = 10;
+  const winTurn = 4;
 
   if (gameState.oni.includes(playerPos)) {
     if (confirm("ゲームオーバー！鬼につかまりました。\nリプレイしますか？")) {
@@ -125,5 +125,19 @@ export function enableStationClicks(svg, onSelect) {
       newCircle.style.cursor = "default";
       newCircle.setAttribute("fill", "#fff");
     }
+    const movable = stations[gameState.player].neighbors;
+    if (movable.length === 0 || 条件で全ブロックされた) {
+    // プレイヤーが行ける駅がない場合
+    const waitCircle = svg.querySelector(`#${gameState.player}`);
+    waitCircle.style.cursor = "pointer";
+    waitCircle.setAttribute("fill", "#ccf");
+    waitCircle.addEventListener("click", () => {
+        moveOniTowardPlayer();
+        gameState.turn += 1;
+        drawCharacters(svg);
+        checkGameEnd(svg) || enableStationClicks(svg, () => {});
+    }, { once: true });
+    }
+
   });
 }
