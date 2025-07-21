@@ -1,17 +1,9 @@
-export const stations = {
-  otemachi:    { name: "大手町", x: 300, y: 200, neighbors: ["tokyo", "kanda", "shinjuku"] },
-  tokyo:       { name: "東京", x: 400, y: 200, neighbors: ["otemachi", "yurakucho"] },
-  yurakucho:   { name: "有楽町", x: 500, y: 200, neighbors: ["tokyo", "shimbashi"] },
-  shimbashi:   { name: "新橋", x: 600, y: 200, neighbors: ["yurakucho", "shinagawa"] },
-  shinagawa:   { name: "品川", x: 700, y: 250, neighbors: ["shimbashi"] },
+export let stations = {};
 
-  kanda:       { name: "神田", x: 300, y: 100, neighbors: ["otemachi", "akihabara"] },
-  akihabara:   { name: "秋葉原", x: 400, y: 100, neighbors: ["kanda", "ueno"] },
-  ueno:        { name: "上野", x: 500, y: 100, neighbors: ["akihabara", "ikebukuro"] },
-  ikebukuro:   { name: "池袋", x: 600, y: 100, neighbors: ["ueno"] },
-
-  shinjuku:    { name: "新宿", x: 200, y: 250, neighbors: ["otemachi"] }
-};
+export async function loadStations() {
+  const response = await fetch("stations.json");
+  stations = await response.json();
+}
 
 export function drawMap(svg) {
   // 路線（線）
