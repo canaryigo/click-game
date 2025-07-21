@@ -138,7 +138,6 @@ export function enableStationClicks(svg, onSelect) {
   }
 }
 
-const surrenderBtn = document.getElementById("surrender-button");
 if (surrenderBtn) {
   surrenderBtn.onclick = () => {
     resetGame(svg);
