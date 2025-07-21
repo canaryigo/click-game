@@ -68,19 +68,24 @@ function moveOniTowardPlayer() {
 export function enableStationClicks(svg, onSelect) {
   Object.entries(stations).forEach(([id, station]) => {
     const circle = svg.querySelector(`#${id}`);
+
+    // 古いイベントを削除（クローンして差し替え）
+    const newCircle = circle.cloneNode(true);
+    circle.parentNode.replaceChild(newCircle, circle);
+
     if (gameState.player && stations[gameState.player].neighbors.includes(id)) {
-      circle.style.cursor = "pointer";
-      circle.addEventListener("click", () => {
-        onSelect(id); // プレイヤーを移動
-        moveOniTowardPlayer(); // 鬼をまとめて1歩ずつ移動
-        gameState.turn += 1; // ← 最後にターンを進める！
+      newCircle.style.cursor = "pointer";
+      newCircle.addEventListener("click", () => {
+        onSelect(id);
+        moveOniTowardPlayer();
+        gameState.turn += 1;
         drawCharacters(svg);
         enableStationClicks(svg, onSelect);
       }, { once: true });
-      circle.setAttribute("fill", "#ccf");
+      newCircle.setAttribute("fill", "#ccf");
     } else {
-      circle.style.cursor = "default";
-      circle.setAttribute("fill", "#fff");
+      newCircle.style.cursor = "default";
+      newCircle.setAttribute("fill", "#fff");
     }
   });
 }
