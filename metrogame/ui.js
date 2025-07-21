@@ -27,6 +27,12 @@ export function drawCharacters(svg) {
     oc.classList.add("character");
     svg.appendChild(oc);
   }
+
+  // ターン表示更新
+  const turnDisplay = document.getElementById("turn-display");
+  if (turnDisplay) {
+    turnDisplay.textContent = `ターン: ${gameState.turn}`;
+  }
 }
 
 export function enableStationClicks(svg, onSelect) {
