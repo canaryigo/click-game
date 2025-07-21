@@ -84,11 +84,3 @@ export function enableStationClicks(svg, onSelect) {
     }
   });
 }
-
-circle.addEventListener("click", () => {
-  onSelect(id);              // プレイヤー移動
-  moveOniTowardPlayer();     // 鬼移動
-  gameState.turn += 1;       // ←ここだけでカウント
-  drawCharacters(svg);
-  enableStationClicks(svg, onSelect); // 次のターン受付
-}, { once: true });
