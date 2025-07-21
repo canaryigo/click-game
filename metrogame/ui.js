@@ -68,7 +68,7 @@ function moveOniTowardPlayer() {
   });
 }
 
-function resetGame(svg) {
+export function resetGame(svg) {
   gameState.player = "otemachi";
   gameState.oni = ["kitasenju", "kitasenju", "meguro", "meguro"];
   gameState.turn = 1;
@@ -137,3 +137,4 @@ export function enableStationClicks(svg, onSelect) {
     };
   }
 }
+
