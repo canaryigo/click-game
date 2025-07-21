@@ -1,6 +1,6 @@
 // ui.js
 import { stations } from "./map.js";
-import { gameState } from "./state.js";
+import { gameState, initialState } from "./state.js";
 
 export function drawCharacters(svg) {
   svg.querySelectorAll(".character").forEach(el => el.remove());
@@ -69,9 +69,7 @@ function moveOniTowardPlayer() {
 }
 
 export function resetGame(svg) {
-  gameState.player = "otemachi";
-  gameState.oni = ["kitasenju", "kitasenju", "meguro", "meguro"];
-  gameState.turn = 1;
+  Object.assign(gameState, initialState);  // ← 状態を初期化
   drawCharacters(svg);
   enableStationClicks(svg, id => {
     gameState.player = id;
