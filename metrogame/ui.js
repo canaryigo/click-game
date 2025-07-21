@@ -39,37 +39,29 @@ function moveOniTowardPlayer() {
   const playerPos = gameState.player;
 
   gameState.oni = gameState.oni.map(current => {
-    if (current === playerPos) return current; // すでに同じ駅
+    if (current === playerPos) return current;
 
     const visited = new Set();
-    const queue = [[current, null]]; // [現在駅, 来た方向]
-
-    let pathMap = {};
+    const queue = [[current]];
     visited.add(current);
 
     while (queue.length > 0) {
-      const [stationId, from] = queue.shift();
-      const neighbors = stations[stationId].neighbors;
+      const path = queue.shift(); // 現在の経路（配列）
+      const last = path[path.length - 1];
 
-      for (let neighbor of neighbors) {
-        if (visited.has(neighbor)) continue;
-        visited.add(neighbor);
-        pathMap[neighbor] = stationId; // どこから来たか記録
+      if (last === playerPos && path.length >= 2) {
+        return path[1]; // 最初の一歩だけ進む
+      }
 
-        if (neighbor === playerPos) {
-          // ゴールに到達したら、逆順にたどって最初の1歩を取得
-          let step = neighbor;
-          while (pathMap[step] !== current) {
-            step = pathMap[step];
-          }
-          return step;
+      for (let neighbor of stations[last].neighbors) {
+        if (!visited.has(neighbor)) {
+          visited.add(neighbor);
+          queue.push([...path, neighbor]);
         }
-        queue.push([neighbor, stationId]);
       }
     }
 
-    // ゴールに辿り着けない場合（あり得ない） → stay
-    return current;
+    return current; // 動けない場合はstay
   });
 }
 
@@ -92,3 +84,11 @@ export function enableStationClicks(svg, onSelect) {
     }
   });
 }
+
+circle.addEventListener("click", () => {
+  onSelect(id);              // プレイヤー移動
+  moveOniTowardPlayer();     // 鬼移動
+  gameState.turn += 1;       // ←ここだけでカウント
+  drawCharacters(svg);
+  enableStationClicks(svg, onSelect); // 次のターン受付
+}, { once: true });
