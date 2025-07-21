@@ -1,5 +1,5 @@
 import { drawMap } from "./map.js";
-import { drawCharacters, enableStationClicks } from "./ui.js";
+import { drawCharacters, enableStationClicks, resetGame } from "./ui.js";
 import { gameState } from "./state.js";
 
 window.addEventListener("DOMContentLoaded", () => {
