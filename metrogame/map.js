@@ -1,15 +1,17 @@
 export let stations = {};
 
+// JSONファイルから駅データを読み込む
 export async function loadStations() {
   const response = await fetch("stations.json");
   stations = await response.json();
 }
 
 export function drawMap(svg) {
-  // 路線（線）
+  // 路線描画
   Object.entries(stations).forEach(([id, station]) => {
     station.neighbors.forEach(nid => {
       const neighbor = stations[nid];
+      if (!neighbor) return;
       const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
       line.setAttribute("x1", station.x);
       line.setAttribute("y1", station.y);
@@ -21,7 +23,7 @@ export function drawMap(svg) {
     });
   });
 
-  // 駅（ノード）
+  // 駅（丸）描画
   Object.entries(stations).forEach(([id, station]) => {
     const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     circle.setAttribute("cx", station.x);

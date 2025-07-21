@@ -1,5 +1,5 @@
 export const initialState = {
-  player: "otemachi",
+  player: "tokyo",
   oni: ["shinagawa", "ikebukuro", "ueno", "shimbashi"],
   turn: 1,
 };

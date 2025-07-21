@@ -1,9 +1,11 @@
-import { drawMap } from "./map.js";
-import { drawCharacters, enableStationClicks, resetGame } from "./ui.js";//resetgameを追加
+import { drawMap, loadStations } from "./map.js";
+import { drawCharacters, enableStationClicks, resetGame } from "./ui.js";
 import { gameState } from "./state.js";
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   const svg = document.getElementById("map");
+
+  await loadStations();          // ← ここが重要！
   drawMap(svg);
   drawCharacters(svg);
 
@@ -11,7 +13,6 @@ window.addEventListener("DOMContentLoaded", () => {
     gameState.player = id;
   });
 
-  // 投了ボタンのクリック処理（svgが使えるスコープ）
   const surrenderBtn = document.getElementById("surrender-button");
   if (surrenderBtn) {
     surrenderBtn.onclick = () => {
