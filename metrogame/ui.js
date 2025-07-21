@@ -137,10 +137,3 @@ export function enableStationClicks(svg, onSelect) {
     };
   }
 }
-
-if (surrenderBtn) {
-  surrenderBtn.onclick = () => {
-    resetGame(svg);
-    document.getElementById("resign-button").style.display = "none";
-  };
-}
