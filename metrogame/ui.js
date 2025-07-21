@@ -75,23 +75,32 @@ function moveOniTowardPlayer() {
   });
 }
 
+function resetGame(svg) {
+  gameState.player = "otemachi";
+  gameState.oni = ["kitasenju", "kitasenju", "meguro", "meguro"];
+  gameState.turn = 1;
+  drawCharacters(svg);
+  enableStationClicks(svg, id => {
+    gameState.player = id;
+  });
+}
+
 function checkGameEnd(svg) {
   const playerPos = gameState.player;
-  const winTurn = 2; // 勝利条件のターン数
+  const winTurn = 10;
 
   if (gameState.oni.includes(playerPos)) {
-    alert("ゲームオーバー！鬼につかまりました。");
-    svg.querySelectorAll(".station").forEach(circle => {
-      const newCircle = circle.cloneNode(true);
-      circle.parentNode.replaceChild(newCircle, circle);
-    });
+    if (confirm("ゲームオーバー！鬼につかまりました。\nリプレイしますか？")) {
+      resetGame(svg);
+    }
+    return true;
   } else if (gameState.turn >= winTurn) {
-    alert("勝利！鬼から逃げ切りました。");
-    svg.querySelectorAll(".station").forEach(circle => {
-      const newCircle = circle.cloneNode(true);
-      circle.parentNode.replaceChild(newCircle, circle);
-    });
+    if (confirm("勝利！鬼から逃げ切りました。\nリプレイしますか？")) {
+      resetGame(svg);
+    }
+    return true;
   }
+  return false;
 }
 
 export function enableStationClicks(svg, onSelect) {
@@ -107,8 +116,9 @@ export function enableStationClicks(svg, onSelect) {
         moveOniTowardPlayer();
         gameState.turn += 1;
         drawCharacters(svg);
-        checkGameEnd(svg);
-        enableStationClicks(svg, onSelect);
+        if (!checkGameEnd(svg)) {
+          enableStationClicks(svg, onSelect);
+        }
       }, { once: true });
       newCircle.setAttribute("fill", "#ccf");
     } else {
