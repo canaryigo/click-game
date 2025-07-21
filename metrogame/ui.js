@@ -35,17 +35,36 @@ export function drawCharacters(svg) {
   }
 }
 
+function moveOniTowardPlayer() {
+  const playerPos = gameState.player;
+  gameState.oni = gameState.oni.map(current => {
+    const options = stations[current].neighbors;
+    if (options.includes(playerPos)) {
+      return playerPos; // 直接隣ならすぐ行く
+    }
+    // プレイヤーに一番近づく駅を選ぶ（簡易）
+    const next = options[0];
+    return next || current;
+  });
+}
+
 export function enableStationClicks(svg, onSelect) {
   // 全ての駅にイベントを登録（ただし合法手のみ）
   Object.entries(stations).forEach(([id, station]) => {
     const circle = svg.querySelector(`#${id}`);
     if (gameState.player && stations[gameState.player].neighbors.includes(id)) {
       circle.style.cursor = "pointer";
-      circle.addEventListener("click", () => onSelect(id), { once: true });
-      circle.setAttribute("fill", "#ccf"); // 移動可能な駅を薄青に
+      circle.addEventListener("click", () => {
+        onSelect(id);
+        gameState.turn += 1;
+        moveOniTowardPlayer();
+        drawCharacters(svg);
+        enableStationClicks(svg, onSelect);
+      }, { once: true });
+      circle.setAttribute("fill", "#ccf");
     } else {
       circle.style.cursor = "default";
-      circle.setAttribute("fill", "#fff"); // 非選択駅は白に戻す
+      circle.setAttribute("fill", "#fff");
     }
   });
 }
