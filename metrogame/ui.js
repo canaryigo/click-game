@@ -77,7 +77,7 @@ function moveOniTowardPlayer() {
 
 function checkGameEnd(svg) {
   const playerPos = gameState.player;
-  const winTurn = 10; // 勝利条件のターン数
+  const winTurn = 2; // 勝利条件のターン数
 
   if (gameState.oni.includes(playerPos)) {
     alert("ゲームオーバー！鬼につかまりました。");
