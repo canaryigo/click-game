@@ -16,17 +16,29 @@ export function drawCharacters(svg) {
   pc.classList.add("character");
   svg.appendChild(pc);
 
-  // 鬼（赤）
-  for (const pos of gameState.oni) {
-    const o = stations[pos];
+// 鬼（赤）
+const groupedOni = {};
+
+for (const pos of gameState.oni) {
+  if (!groupedOni[pos]) groupedOni[pos] = 0;
+  groupedOni[pos]++;
+}
+
+for (const [pos, count] of Object.entries(groupedOni)) {
+  const base = stations[pos];
+  for (let i = 0; i < count; i++) {
+    const offsetX = (i % 2) * 10 - 5; // 交互に左右へずらす
+    const offsetY = Math.floor(i / 2) * 10 - 5;
+
     const oc = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    oc.setAttribute("cx", o.x);
-    oc.setAttribute("cy", o.y);
+    oc.setAttribute("cx", base.x + offsetX);
+    oc.setAttribute("cy", base.y + offsetY);
     oc.setAttribute("r", 8);
     oc.setAttribute("fill", "red");
     oc.classList.add("character");
     svg.appendChild(oc);
   }
+}
 
   // ターン表示更新
   const turnDisplay = document.getElementById("turn-display");
