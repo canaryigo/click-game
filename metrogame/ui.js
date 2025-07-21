@@ -16,29 +16,27 @@ export function drawCharacters(svg) {
   pc.classList.add("character");
   svg.appendChild(pc);
 
-// 鬼（赤）
-const groupedOni = {};
-
-for (const pos of gameState.oni) {
-  if (!groupedOni[pos]) groupedOni[pos] = 0;
-  groupedOni[pos]++;
-}
-
-for (const [pos, count] of Object.entries(groupedOni)) {
-  const base = stations[pos];
-  for (let i = 0; i < count; i++) {
-    const offsetX = (i % 2) * 10 - 5; // 交互に左右へずらす
-    const offsetY = Math.floor(i / 2) * 10 - 5;
-
-    const oc = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    oc.setAttribute("cx", base.x + offsetX);
-    oc.setAttribute("cy", base.y + offsetY);
-    oc.setAttribute("r", 8);
-    oc.setAttribute("fill", "red");
-    oc.classList.add("character");
-    svg.appendChild(oc);
+  // 鬼（赤）ずらして描画
+  const groupedOni = {};
+  for (const pos of gameState.oni) {
+    if (!groupedOni[pos]) groupedOni[pos] = 0;
+    groupedOni[pos]++;
   }
-}
+
+  for (const [pos, count] of Object.entries(groupedOni)) {
+    const base = stations[pos];
+    for (let i = 0; i < count; i++) {
+      const offsetX = (i % 2) * 10 - 5;
+      const offsetY = Math.floor(i / 2) * 10 - 5;
+      const oc = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      oc.setAttribute("cx", base.x + offsetX);
+      oc.setAttribute("cy", base.y + offsetY);
+      oc.setAttribute("r", 8);
+      oc.setAttribute("fill", "red");
+      oc.classList.add("character");
+      svg.appendChild(oc);
+    }
+  }
 
   // ターン表示更新
   const turnDisplay = document.getElementById("turn-display");
@@ -58,11 +56,11 @@ function moveOniTowardPlayer() {
     visited.add(current);
 
     while (queue.length > 0) {
-      const path = queue.shift(); // 現在の経路（配列）
+      const path = queue.shift();
       const last = path[path.length - 1];
 
       if (last === playerPos && path.length >= 2) {
-        return path[1]; // 最初の一歩だけ進む
+        return path[1];
       }
 
       for (let neighbor of stations[last].neighbors) {
@@ -73,15 +71,32 @@ function moveOniTowardPlayer() {
       }
     }
 
-    return current; // 動けない場合はstay
+    return current;
   });
+}
+
+function checkGameEnd(svg) {
+  const playerPos = gameState.player;
+  const winTurn = 10; // 勝利条件のターン数
+
+  if (gameState.oni.includes(playerPos)) {
+    alert("ゲームオーバー！鬼につかまりました。");
+    svg.querySelectorAll(".station").forEach(circle => {
+      const newCircle = circle.cloneNode(true);
+      circle.parentNode.replaceChild(newCircle, circle);
+    });
+  } else if (gameState.turn >= winTurn) {
+    alert("勝利！鬼から逃げ切りました。");
+    svg.querySelectorAll(".station").forEach(circle => {
+      const newCircle = circle.cloneNode(true);
+      circle.parentNode.replaceChild(newCircle, circle);
+    });
+  }
 }
 
 export function enableStationClicks(svg, onSelect) {
   Object.entries(stations).forEach(([id, station]) => {
     const circle = svg.querySelector(`#${id}`);
-
-    // 古いイベントを削除（クローンして差し替え）
     const newCircle = circle.cloneNode(true);
     circle.parentNode.replaceChild(newCircle, circle);
 
@@ -92,6 +107,7 @@ export function enableStationClicks(svg, onSelect) {
         moveOniTowardPlayer();
         gameState.turn += 1;
         drawCharacters(svg);
+        checkGameEnd(svg);
         enableStationClicks(svg, onSelect);
       }, { once: true });
       newCircle.setAttribute("fill", "#ccf");
