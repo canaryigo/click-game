@@ -140,12 +140,13 @@ export function enableStationClicks(svg, onSelect) {
     waitCircle.style.cursor = "pointer";
     waitCircle.setAttribute("fill", "#ccf");
     waitCircle.addEventListener("click", () => {
-      moveOniTowardPlayer();
-      gameState.turn += 1;
-      drawCharacters(svg);
-      if (!checkGameEnd(svg)) {
+    onSelect(gameState.player); // ← 追加
+    moveOniTowardPlayer();
+    gameState.turn += 1;
+    drawCharacters(svg);
+    if (!checkGameEnd(svg)) {
         enableStationClicks(svg, onSelect);
-      }
+    }
     }, { once: true });
   }
 }
