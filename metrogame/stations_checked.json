@@ -1,0 +1,540 @@
+{
+  "tokyo": {
+    "name": "東京",
+    "x": 900,
+    "y": 400,
+    "neighbors": [
+      "yurakucho",
+      "kanda"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "yurakucho": {
+    "name": "有楽町",
+    "x": 893,
+    "y": 464,
+    "neighbors": [
+      "tokyo",
+      "shimbashi"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "shimbashi": {
+    "name": "新橋",
+    "x": 872,
+    "y": 526,
+    "neighbors": [
+      "yurakucho",
+      "hamamatsucho",
+      "toranomon",
+      "ginza"
+    ],
+    "lines": [
+      "山手線",
+      "銀座線"
+    ]
+  },
+  "hamamatsucho": {
+    "name": "浜松町",
+    "x": 839,
+    "y": 582,
+    "neighbors": [
+      "shimbashi",
+      "tamachi"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "tamachi": {
+    "name": "田町",
+    "x": 794,
+    "y": 629,
+    "neighbors": [
+      "hamamatsucho",
+      "shinagawa"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "shinagawa": {
+    "name": "品川",
+    "x": 741,
+    "y": 665,
+    "neighbors": [
+      "tamachi",
+      "osaki"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "osaki": {
+    "name": "大崎",
+    "x": 680,
+    "y": 689,
+    "neighbors": [
+      "shinagawa",
+      "gotanda"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "gotanda": {
+    "name": "五反田",
+    "x": 616,
+    "y": 700,
+    "neighbors": [
+      "osaki",
+      "meguro"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "meguro": {
+    "name": "目黒",
+    "x": 551,
+    "y": 696,
+    "neighbors": [
+      "gotanda",
+      "ebisu"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "ebisu": {
+    "name": "恵比寿",
+    "x": 489,
+    "y": 679,
+    "neighbors": [
+      "meguro",
+      "shibuya"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "shibuya": {
+    "name": "渋谷",
+    "x": 432,
+    "y": 648,
+    "neighbors": [
+      "ebisu",
+      "harajuku",
+      "omote-sando"
+    ],
+    "lines": [
+      "山手線",
+      "銀座線"
+    ]
+  },
+  "harajuku": {
+    "name": "原宿",
+    "x": 382,
+    "y": 606,
+    "neighbors": [
+      "shibuya",
+      "yoyogi"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "yoyogi": {
+    "name": "代々木",
+    "x": 343,
+    "y": 555,
+    "neighbors": [
+      "harajuku",
+      "shinjuku"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "shinjuku": {
+    "name": "新宿",
+    "x": 316,
+    "y": 496,
+    "neighbors": [
+      "yoyogi",
+      "shinokubo"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "shinokubo": {
+    "name": "新大久保",
+    "x": 302,
+    "y": 432,
+    "neighbors": [
+      "shinjuku",
+      "takadanobaba"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "takadanobaba": {
+    "name": "高田馬場",
+    "x": 302,
+    "y": 368,
+    "neighbors": [
+      "shinokubo",
+      "mejiro"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "mejiro": {
+    "name": "目白",
+    "x": 316,
+    "y": 304,
+    "neighbors": [
+      "takadanobaba",
+      "ikebukuro"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "ikebukuro": {
+    "name": "池袋",
+    "x": 343,
+    "y": 245,
+    "neighbors": [
+      "mejiro",
+      "otsuka"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "otsuka": {
+    "name": "大塚",
+    "x": 382,
+    "y": 194,
+    "neighbors": [
+      "ikebukuro",
+      "sugamo"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "sugamo": {
+    "name": "巣鴨",
+    "x": 432,
+    "y": 152,
+    "neighbors": [
+      "otsuka",
+      "komagome"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "komagome": {
+    "name": "駒込",
+    "x": 489,
+    "y": 121,
+    "neighbors": [
+      "sugamo",
+      "tabata"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "tabata": {
+    "name": "田端",
+    "x": 551,
+    "y": 104,
+    "neighbors": [
+      "komagome",
+      "nishinippori"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "nishinippori": {
+    "name": "西日暮里",
+    "x": 616,
+    "y": 100,
+    "neighbors": [
+      "tabata",
+      "nippori"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "nippori": {
+    "name": "日暮里",
+    "x": 680,
+    "y": 111,
+    "neighbors": [
+      "nishinippori",
+      "uguisudani"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "uguisudani": {
+    "name": "鶯谷",
+    "x": 741,
+    "y": 135,
+    "neighbors": [
+      "nippori",
+      "ueno"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "ueno": {
+    "name": "上野",
+    "x": 794,
+    "y": 171,
+    "neighbors": [
+      "uguisudani",
+      "okachimachi",
+      "ueno-hirokoji",
+      "inaricho"
+    ],
+    "lines": [
+      "山手線",
+      "銀座線"
+    ]
+  },
+  "okachimachi": {
+    "name": "御徒町",
+    "x": 839,
+    "y": 218,
+    "neighbors": [
+      "ueno",
+      "akihabara"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "akihabara": {
+    "name": "秋葉原",
+    "x": 872,
+    "y": 274,
+    "neighbors": [
+      "okachimachi",
+      "kanda"
+    ],
+    "lines": [
+      "山手線"
+    ]
+  },
+  "kanda": {
+    "name": "神田",
+    "x": 893,
+    "y": 336,
+    "neighbors": [
+      "akihabara",
+      "tokyo",
+      "mitsukoshimae",
+      "suehirocho"
+    ],
+    "lines": [
+      "山手線",
+      "銀座線"
+    ]
+  },
+  "omote-sando": {
+    "name": "表参道",
+    "x": 484,
+    "y": 592,
+    "neighbors": [
+      "shibuya",
+      "gaiemmae"
+    ],
+    "lines": [
+      "銀座線"
+    ]
+  },
+  "gaiemmae": {
+    "name": "外苑前",
+    "x": 520,
+    "y": 550,
+    "neighbors": [
+      "omote-sando",
+      "aoyama-itchome"
+    ],
+    "lines": [
+      "銀座線"
+    ]
+  },
+  "aoyama-itchome": {
+    "name": "青山一丁目",
+    "x": 585,
+    "y": 500,
+    "neighbors": [
+      "gaiemmae",
+      "akasaka-mitsuke"
+    ],
+    "lines": [
+      "銀座線"
+    ]
+  },
+  "akasaka-mitsuke": {
+    "name": "赤坂見附",
+    "x": 640,
+    "y": 468,
+    "neighbors": [
+      "aoyama-itchome",
+      "tameike-sanno"
+    ],
+    "lines": [
+      "銀座線"
+    ]
+  },
+  "tameike-sanno": {
+    "name": "溜池山王",
+    "x": 703,
+    "y": 492,
+    "neighbors": [
+      "akasaka-mitsuke",
+      "toranomon"
+    ],
+    "lines": [
+      "銀座線"
+    ]
+  },
+  "toranomon": {
+    "name": "虎ノ門",
+    "x": 776,
+    "y": 511,
+    "neighbors": [
+      "tameike-sanno",
+      "shimbashi"
+    ],
+    "lines": [
+      "銀座線"
+    ]
+  },
+  "ginza": {
+    "name": "銀座",
+    "x": 940,
+    "y": 470,
+    "neighbors": [
+      "shimbashi",
+      "kyobashi"
+    ],
+    "lines": [
+      "銀座線"
+    ]
+  },
+  "kyobashi": {
+    "name": "京橋",
+    "x": 944,
+    "y": 412,
+    "neighbors": [
+      "ginza",
+      "nihombashi"
+    ],
+    "lines": [
+      "銀座線"
+    ]
+  },
+  "nihombashi": {
+    "name": "日本橋",
+    "x": 953,
+    "y": 377,
+    "neighbors": [
+      "kyobashi",
+      "mitsukoshimae"
+    ],
+    "lines": [
+      "銀座線"
+    ]
+  },
+  "mitsukoshimae": {
+    "name": "三越前",
+    "x": 934,
+    "y": 333,
+    "neighbors": [
+      "nihombashi",
+      "kanda"
+    ],
+    "lines": [
+      "銀座線"
+    ]
+  },
+  "suehirocho": {
+    "name": "末広町",
+    "x": 820,
+    "y": 283,
+    "neighbors": [
+      "kanda",
+      "ueno-hirokoji"
+    ],
+    "lines": [
+      "銀座線"
+    ]
+  },
+  "ueno-hirokoji": {
+    "name": "上野広小路",
+    "x": 781,
+    "y": 227,
+    "neighbors": [
+      "suehirocho",
+      "ueno"
+    ],
+    "lines": [
+      "銀座線"
+    ]
+  },
+  "inaricho": {
+    "name": "稲荷町",
+    "x": 869,
+    "y": 168,
+    "neighbors": [
+      "ueno",
+      "tawaramachi"
+    ],
+    "lines": [
+      "銀座線"
+    ]
+  },
+  "tawaramachi": {
+    "name": "田原町",
+    "x": 929,
+    "y": 168,
+    "neighbors": [
+      "inaricho",
+      "asakusa"
+    ],
+    "lines": [
+      "銀座線"
+    ]
+  },
+  "asakusa": {
+    "name": "浅草",
+    "x": 976,
+    "y": 140,
+    "neighbors": [
+      "tawaramachi"
+    ],
+    "lines": [
+      "銀座線"
+    ]
+  }
+}
