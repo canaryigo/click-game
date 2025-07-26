@@ -34,6 +34,12 @@ export function drawMap(svg) {
     circle.setAttribute("stroke-width", 2);
     circle.setAttribute("id", id);
     circle.classList.add("station");
+
+    // ★ タイトル（ツールチップ）を追加
+    const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
+    title.textContent = station.name;
+    circle.appendChild(title);
+
     svg.appendChild(circle);
   });
 }
