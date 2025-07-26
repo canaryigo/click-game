@@ -35,10 +35,25 @@ export function drawMap(svg) {
     circle.setAttribute("id", id);
     circle.classList.add("station");
 
-    // ★ タイトル（ツールチップ）を追加
-    const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
-    title.textContent = station.name;
-    circle.appendChild(title);
+    // ★ ツールチップ表示用のイベント
+    circle.addEventListener("mouseenter", e => {
+      const tooltip = document.getElementById("station-tooltip");
+      tooltip.textContent = station.name;
+      tooltip.style.left = e.pageX + 10 + "px";
+      tooltip.style.top = e.pageY + 10 + "px";
+      tooltip.style.display = "block";
+    });
+
+    circle.addEventListener("mousemove", e => {
+      const tooltip = document.getElementById("station-tooltip");
+      tooltip.style.left = e.pageX + 10 + "px";
+      tooltip.style.top = e.pageY + 10 + "px";
+    });
+
+    circle.addEventListener("mouseleave", () => {
+      const tooltip = document.getElementById("station-tooltip");
+      tooltip.style.display = "none";
+    });
 
     svg.appendChild(circle);
   });

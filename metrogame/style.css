@@ -1,0 +1,16 @@
+/* 駅名ツールチップ */
+#station-tooltip {
+  position: absolute;
+  background-color: #fefefe;
+  color: #1a1a1a;
+  border: 1px solid #666;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 14px;
+  font-family: "Segoe UI", "ヒラギノ角ゴ ProN", sans-serif;
+  white-space: nowrap;
+  pointer-events: none;
+  display: none;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
