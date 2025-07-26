@@ -2,7 +2,7 @@ export let stations = {};
 
 // JSONファイルから駅データを読み込む
 export async function loadStations() {
-  const response = await fetch("stations.json");
+  const response = await fetch("stations_ginza.json");
   stations = await response.json();
 }
 
