@@ -1,3 +1,7 @@
+html, body {
+  position: relative;
+}
+
 /* 駅名ツールチップ */
 #station-tooltip {
   position: absolute;
