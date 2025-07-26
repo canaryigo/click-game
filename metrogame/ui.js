@@ -78,7 +78,7 @@ export function resetGame(svg) {
 
 function checkGameEnd(svg) {
   const playerPos = gameState.player;
-  const winTurn = 3;
+  const winTurn = 5;
 
   if (gameState.oni.includes(playerPos)) {
     alert("ゲームオーバー！鬼につかまりました。");
