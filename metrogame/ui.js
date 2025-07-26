@@ -106,8 +106,9 @@ export function enableStationClicks(svg, onSelect) {
 
   Object.entries(stations).forEach(([id, station]) => {
     const circle = svg.querySelector(`#${id}`);
-    const newCircle = circle.cloneNode(true);
-    circle.parentNode.replaceChild(newCircle, circle);
+    //const newCircle = circle.cloneNode(true);
+    //circle.parentNode.replaceChild(newCircle, circle);
+    const newCircle = circle; 
 
     newCircle.style.cursor = "default";
     newCircle.setAttribute("fill", "#fff");
