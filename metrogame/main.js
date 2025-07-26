@@ -12,12 +12,19 @@ window.addEventListener("DOMContentLoaded", async () => {
   enableStationClicks(svg, id => {
     gameState.player = id;
   });
-
+  svg.addEventListener("mousemove", e => {
+    const pt = svg.createSVGPoint();
+    pt.x = e.clientX;
+    pt.y = e.clientY;
+    const cursorpt = pt.matrixTransform(svg.getScreenCTM().inverse());
+    debug.textContent = `x: ${Math.round(cursorpt.x)}, y: ${Math.round(cursorpt.y)}`;
+  });
+});
+  
   const surrenderBtn = document.getElementById("surrender-button");
   if (surrenderBtn) {
     surrenderBtn.onclick = () => {
       resetGame(svg);
       document.getElementById("resign-button").style.display = "none";
     };
-  }
-});
+  };
