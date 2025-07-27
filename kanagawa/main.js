@@ -1,3 +1,6 @@
+const offsetX = 100;  // 任意で調整（右にずらす）
+const offsetY = 50;   // 任意で調整（下にずらす）
+
 document.addEventListener('DOMContentLoaded', async () => {
   const response = await fetch('grid_map_kanagawa.json');
   const mapData = await response.json();
@@ -16,8 +19,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    rect.setAttribute('x', x * cellSize);
-    rect.setAttribute('y', y * cellSize);
+    rect.setAttribute('x', x * cellSize + offsetX);
+    rect.setAttribute('y', y * cellSize + offsetY);
     rect.setAttribute('width', cellSize);
     rect.setAttribute('height', cellSize);
     rect.setAttribute('fill', cityColors[city]);
@@ -25,11 +28,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     rect.setAttribute('stroke-width', '1');
 
     rect.addEventListener('mouseenter', () => {
-      const tooltip = document.getElementById('tile-tooltip');
-      tooltip.innerText = `${city} (${x}, ${y})`;
-      tooltip.style.display = 'block';
-      tooltip.style.left = `${x * cellSize + 10}px`;
-      tooltip.style.top = `${y * cellSize + 10}px`;
+    const tooltip = document.getElementById('tile-tooltip');
+    tooltip.innerText = `${city} (${x}, ${y})`;
+    tooltip.style.display = 'block';
+    tooltip.style.left = `${x * cellSize + offsetX + 10}px`;
+    tooltip.style.top = `${y * cellSize + offsetY + 10}px`;
     });
 
     rect.addEventListener('mouseleave', () => {
