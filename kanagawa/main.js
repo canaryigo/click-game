@@ -1,5 +1,5 @@
-const offsetX = 100;  // 任意で調整（右にずらす）
-const offsetY = 50;   // 任意で調整（下にずらす）
+const offsetX = 400;  // 任意で調整（右にずらす）
+const offsetY = 100;   // 任意で調整（下にずらす）
 
 document.addEventListener('DOMContentLoaded', async () => {
   const response = await fetch('grid_map_kanagawa.json');
