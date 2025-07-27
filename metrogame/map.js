@@ -2,7 +2,7 @@ export let stations = {};
 
 // JSONファイルから駅データを読み込む
 export async function loadStations() {
-  const response = await fetch("stations_checked.json");
+  const response = await fetch("stations_marunouchi.json");
   stations = await response.json();
 }
 
@@ -10,6 +10,7 @@ export function drawMap(svg) {
   const lineColors = {
     "山手線": "#77c94e",
     "銀座線": "#f39800",
+    "丸ノ内線": "#f62e36",
   };
 
   // 路線描画
