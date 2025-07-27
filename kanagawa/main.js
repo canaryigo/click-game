@@ -34,7 +34,7 @@ mapData.forEach(({ x, y, city }) => {
     tooltip.style.top = `${y * cellSize + 10}px`;
   });
   rect.addEventListener('mouseleave', () => {
-    document.getElementById('station-tooltip').style.display = 'none';
+    document.getElementById('tile-tooltip').style.display = 'none';
   });
 
   svg.appendChild(rect);
