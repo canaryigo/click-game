@@ -26,7 +26,7 @@ mapData.forEach(({ x, y, city }) => {
 
   // ツールチップ表示用
   rect.addEventListener('mouseenter', () => {
-    const tooltip = document.getElementById('station-tooltip');
+    const tooltip = document.getElementById('tile-tooltip');
     tooltip.innerText = `${city} (${x}, ${y})`;
     tooltip.style.display = 'block';
     tooltip.style.position = 'absolute';
