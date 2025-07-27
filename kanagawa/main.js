@@ -1,4 +1,4 @@
-const offsetX = 400;  // 任意で調整（右にずらす）
+const offsetX = 250;  // 任意で調整（右にずらす）
 const offsetY = 100;   // 任意で調整（下にずらす）
 
 document.addEventListener('DOMContentLoaded', async () => {
