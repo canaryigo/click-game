@@ -7,6 +7,11 @@ export async function loadStations() {
 }
 
 export function drawMap(svg) {
+  const lineColors = {
+    "山手線": "#77c94e",
+    "銀座線": "#f39800",
+  };
+
   // 路線描画
   Object.entries(stations).forEach(([id, station]) => {
     station.neighbors.forEach(nid => {
@@ -17,6 +22,9 @@ export function drawMap(svg) {
       line.setAttribute("y1", station.y);
       line.setAttribute("x2", neighbor.x);
       line.setAttribute("y2", neighbor.y);
+      const commonLines = station.lines?.filter(line => neighbor.lines?.includes(line));
+      const color = commonLines?.length > 0 ? (lineColors[commonLines[0]] || "#aaa") : "#aaa";
+
       line.setAttribute("stroke", "#aaa");
       line.setAttribute("stroke-width", 4);
       svg.appendChild(line);
