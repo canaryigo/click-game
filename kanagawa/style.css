@@ -1,0 +1,12 @@
+body {
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+#map {
+  display: block;
+  margin: 0 auto 20px auto;
+  max-width: 100%;
+}

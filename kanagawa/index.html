@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>カナガワ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>カナガワ</h1>
+  <svg id="map" width="1300" height="800" style="border:1px solid #ccc;"></svg>
+  <div id="debug-coords" style="font-size: 12px; color: gray; margin-top: 5px;"></div>
+  <div id="controls">
+  <div id="turn-display" style="font-weight: bold; font-size: 1.2em;">ターン: 1</div>
+  <button id="surrender-button">投了</button>
+  <button id="resign-button" style="display: none;">リプレイ</button>
+  <div id="station-tooltip"></div>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
