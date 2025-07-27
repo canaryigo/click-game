@@ -25,7 +25,7 @@ export function drawMap(svg) {
       const commonLines = station.lines?.filter(line => neighbor.lines?.includes(line));
       const color = commonLines?.length > 0 ? (lineColors[commonLines[0]] || "#aaa") : "#aaa";
 
-      line.setAttribute("stroke", "#aaa");
+      line.setAttribute("stroke", color);
       line.setAttribute("stroke-width", 4);
       svg.appendChild(line);
     });
